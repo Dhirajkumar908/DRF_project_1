@@ -25,3 +25,15 @@ def createPost(request):
         return Response({"success":"The post is successfuly created"}, status=201)
     else:
         return Response(serializer.errors, status=400)
+    
+
+@api_view(['DELETE'])
+def delete(request):
+    post_id=request.data.get('post_id')
+    try:
+        posts=post.objects.get(id=post_id)
+        posts.delete()
+        return Response({"success":"The post was successfull deleted"}, status=200)
+    except posts.DoesNotExist:
+        return Response({"Error":"Post dose not exist"}, status=404)
+
